@@ -27,6 +27,8 @@
         @import url('https://fonts.googleapis.com/css?family=Inconsolata');
         body {
             font-family: 'Roboto', sans-serif;
+            background-color: #263238;
+            color: #ffffff;
         }
         .fail-color {
             color: #f44336 !important;
@@ -53,25 +55,28 @@
         }
         .field-title {
             height: 50px;
-            background-color: #ff8a65;
+            background-color: #607d8b;
             color: white;
             text-align: center;
             line-height: 50px;
-            font-size: 16pt;
         }
         .field-data {
             height: 50px;
             background-color: #ffffff;
-            color: #ff8a65;
+            color: #607d8b;
             text-align: center;
             line-height: 50px;
-            font-size: 16pt;
-            font-weight: 900;
         }
         .report-title {
             text-align: center;
             padding-bottom: 15px;
-            border-bottom: solid 1px #9e9e9e;
+            border-bottom: solid 1px #607d8b;
+        }
+        .pass-background {
+            background-color: #4caf50 !important;
+        }
+        .fail-background {
+            background-color: #f44336 !important;
         }
     </style>
     <script type="text/javascript">
@@ -90,15 +95,45 @@
         <div class="col-md-3 grey">Time</div><div class="col-md-9 grey">{{timestamp}}</div>
         <div class="col-md-3 grey">Exported with</div><div class="col-md-9 grey">Newman v{{version}}</div>
         <div class="col-md-12">&nbsp;</div>
-        <div class="col-md-4">&nbsp;</div><div class="col-md-4"><strong>Total</strong></div><div class="col-md-4"><strong>Failed</strong></div>
 
       {{#with summary}}
         {{#with stats}}
-          <div class="col-md-4">Iterations</div><div class="col-md-4">{{iterations.total}}</div><div class="col-md-4">{{iterations.failed}}</div>
-          <div class="col-md-4">Requests</div><div class="col-md-4">{{requests.total}}</div><div class="col-md-4">{{requests.failed}}</div>
-          <div class="col-md-4">Prerequest Scripts</div><div class="col-md-4">{{prerequestScripts.total}}</div><div class="col-md-4">{{prerequestScripts.failed}}</div>
-          <div class="col-md-4">Test Scripts</div><div class="col-md-4">{{testScripts.total}}</div><div class="col-md-4">{{testScripts.failed}}</div>
-          <div class="col-md-4">Assertions</div><div class="col-md-4">{{assertions.total}}</div><div class="col-md-4">{{assertions.failed}}</div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td scope="col"></td>
+                        <td scope="col">Total</td>
+                        <td scope="col">Failed</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Iterations</td>
+                        <td>{{iterations.total}}</td>
+                        <td {{#if iterations.failed}}class="fail-color"{{/if}}>{{iterations.failed}}</td>
+                    </tr>
+                    <tr>
+                        <td>Requests</td>
+                        <td>{{requests.total}}</td>
+                        <td {{#if requests.failed}}class="fail-color"{{/if}}>{{requests.failed}}</td>
+                    </tr>
+                    <tr>
+                        <td>Prerequest Scripts</td>
+                        <td>{{prerequestScripts.total}}</td>
+                        <td {{#if prerequestScripts.failed}}class="fail-color"{{/if}}>{{prerequestScripts.failed}}</td>
+                    </tr>
+                    <tr>
+                        <td>Test Scripts</td>
+                        <td>{{testScripts.total}}</td>
+                        <td {{#if testScripts.failed}}class="fail-color"{{/if}}>{{testScripts.failed}}</td>
+                    </tr>
+                    <tr>
+                        <td>Assertions</td>
+                        <td>{{assertions.total}}</td>
+                        <td {{#if assertions.failed}}class="fail-color"{{/if}}>{{assertions.failed}}</td>
+                    </tr>
+                </tbody>
+            </table>
         {{/with}}
 
         <div class="col-md-12">&nbsp;</div>
@@ -106,14 +141,14 @@
             <div class="col-md-12 field-title">Total run duration</div><div class="col-md-12 field-data">{{duration}}</div>
         </div>
         <div class="col-md-3">
-            <div class="col-md-12 field-title">⇣ Data</div><div class="col-md-12 field-data">{{responseTotal}} (approx)</div>
+            <div class="col-md-12 field-title">⇣ Data (approx)</div><div class="col-md-12 field-data">{{responseTotal}}</div>
         </div>
         <div class="col-md-3">
             <div class="col-md-12 field-title">Average response time</div><div class="col-md-12 field-data">{{responseAverage}}</div>
         </div>
         {{!-- <div class="col-md-12">&nbsp;</div> --}}
         <div class="col-md-3">
-            <div class="col-md-12 field-title">Total Failures</div><div class="col-md-12 field-data">{{failures.length}}</div>
+            <div class="col-md-12 field-title {{#if failures.length}}fail-background{{else}}pass-background{{/if}}">Total failures</div><div class="col-md-12 field-data {{#if failures.length}}fail-color{{/if}}">{{failures.length}}</div>
         </div>
       {{/with}}
     </div>
