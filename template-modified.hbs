@@ -54,6 +54,28 @@
             background-color: #263238;
             color: #ffffff;
         }
+        .field-title {
+            height: 50px;
+            background-color: #ff8a65;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+            font-size: 16pt;
+        }
+        .field-data {
+            height: 50px;
+            background-color: #ffffff;
+            color: #ff8a65;
+            text-align: center;
+            line-height: 50px;
+            font-size: 16pt;
+            font-weight: 900;
+        }
+        .report-title {
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: solid 1px #9e9e9e;
+        }
     </style>
     <script type="text/javascript">
         /* my script */
@@ -62,7 +84,7 @@
 </head>
 <body>
   <div class="container">
-    <h3>Newman Report</h3>
+    <h3 class="report-title">Newman Report</h3>
     <div class="row">
       {{#with summary}}
         <div class="col-md-3">Collection</div><div class="col-md-9">{{collection.name}}</div>
@@ -83,16 +105,23 @@
         {{/with}}
 
         <div class="col-md-12">&nbsp;</div>
-        <div class="col-md-6">Total run duration</div><div class="col-md-6">{{duration}}</div>
-        <div class="col-md-6">Total data received</div><div class="col-md-6">{{responseTotal}} (approx)</div>
-        <div class="col-md-6">Average response time</div><div class="col-md-6">{{responseAverage}}</div>
-
-        <div class="col-md-12">&nbsp;</div>
-        <div class="col-md-3"><strong>Total Failures</strong></div><div class="col-md-6"><strong>{{failures.length}}</strong></div>
+        <div class="col-md-3">
+            <div class="col-md-12 field-title">Total run duration</div><div class="col-md-12 field-data">{{duration}}</div>
+        </div>
+        <div class="col-md-3">
+            <div class="col-md-12 field-title">⇣ Data</div><div class="col-md-12 field-data">{{responseTotal}} (approx)</div>
+        </div>
+        <div class="col-md-3">
+            <div class="col-md-12 field-title">Average response time</div><div class="col-md-12 field-data">{{responseAverage}}</div>
+        </div>
+        {{!-- <div class="col-md-12">&nbsp;</div> --}}
+        <div class="col-md-3">
+            <div class="col-md-12 field-title">Total Failures</div><div class="col-md-12 field-data">{{failures.length}}</div>
+        </div>
       {{/with}}
     </div>
 
-    <br/><h4>Requests</h4>
+    <br/><h4>➊ Requests</h4>
 
     {{#each aggregations}}
         {{#if parent.name}}
@@ -111,7 +140,7 @@
     {{/each}}
 
     {{#if summary.failures.length}}
-        <br/><h4>Failures</h4>
+        <br/><h4>➋ Failures</h4>
 
         {{#each summary.failures}}
             <div class="panel-group" id="collapse-failure-{{@index}}" role="tablist" aria-multiselectable="true">
@@ -153,7 +182,7 @@
         <div class="panel-group" id="collapse-request-{{item.id}}" role="tablist" aria-multiselectable="true">
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="requestHead-{{item.id}}">
-                    <h4 class="panel-title {{#if cumulativeTests.failed}}fail-color{{else}}pass-color{{/if}}"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-{{item.id}}" aria-controls="collapseOne">{{item.name}}</a></h4>
+                    <h4 class="panel-title {{#if cumulativeTests.failed}}fail-color{{else}}pass-color{{/if}}"><a data-toggle="collapse" data-parent="#accordion" href="#requestData-{{item.id}}" aria-controls="collapseOne">⇢ {{item.name}}</a></h4>
                     <div>MeanTime/Request:{{mean.time}}</div>
                     <div>MeanSize/Request:{{mean.size}}</div>
                     <div>{{cumulativeTests.passed}} passed</div>
@@ -180,14 +209,6 @@
                                 <div class="col-md-4"><b>Details</b></div><div class="col-md-8 font-code"><b>A connection to the host could not be established within the stipulated timeout</b></div>
                             {{/if}}
                         {{/if}}
-
-                        {{!-- <div class="col-md-12">&nbsp;</div>
-                        <div class="col-md-4">Mean time per request</div><div class="col-md-8 font-code">{{mean.time}}</div><br/>
-                        <div class="col-md-4">Mean size per request</div><div class="col-md-8 font-code">{{mean.size}}</div><br/> --}}
-
-                        {{!-- <div class="col-md-12">&nbsp;</div>
-                        <br/><div class="col-md-4">Total passed tests</div><div class="col-md-8 font-code">{{cumulativeTests.passed}}</div>
-                        <div class="col-md-4">Total failed tests</div><div class="col-md-8 font-code">{{cumulativeTests.failed}}</div><br/> --}}
 
                         <div class="col-md-12">&nbsp;</div>
                         <br/><div class="col-md-4">Status code</div><div class="col-md-8 font-code">{{response.code}}</div><br/>
